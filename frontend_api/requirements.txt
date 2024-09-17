@@ -1,0 +1,7 @@
+fastapi 
+pymongo
+uvicorn
+pydantic
+django 
+djangorestframework 
+psycopg2-binary
