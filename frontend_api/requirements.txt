@@ -5,3 +5,4 @@ pydantic
 django 
 djangorestframework 
 psycopg2-binary
+pika

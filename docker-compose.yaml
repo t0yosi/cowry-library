@@ -27,10 +27,16 @@ services:
     ports:
       - "5432:5432"
   
-  
   mongo:
     image: mongo:latest
     container_name: mongodb
     ports:
       - "27017:27017"
 
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    environment:
+      - RABBITMQ_ERL_COOKIE=YOUR_SECRET_COOKIE
+    ports:
+      - "5672:5672"  # RabbitMQ main port
+      - "15672:15672"  # RabbitMQ Management UI
