@@ -1,6 +1,16 @@
 version: '3.8'
 
 services:
+  frontend-api:
+    build: ./frontend_api
+    container_name: frontend-api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/
+  
   backend-api:
     build: ./backend
     ports:
@@ -16,4 +26,11 @@ services:
       POSTGRES_DB: library_db
     ports:
       - "5432:5432"
+  
+  
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
 
