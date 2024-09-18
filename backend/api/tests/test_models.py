@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import User, Book, BorrowRecord
+from api.models import User, Book, BorrowRecord
 from datetime import date
 
 class UserModelTest(TestCase):
