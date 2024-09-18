@@ -16,6 +16,7 @@ class BookViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         title = serializer.validated_data['title']
         publisher = serializer.validated_data['publisher']
+        category = serializer.validated_data['category']
         
         if Book.objects.filter(title=title, publisher=publisher).exists():
             raise serializers.ValidationError("This book already exists.")
@@ -24,7 +25,7 @@ class BookViewSet(viewsets.ModelViewSet):
         book = serializer.save()
         
         # Publish a message to RabbitMQ
-        publish_message(f'New book added: {book.title}')
+        publish_message(f'New book added: {book.title} by {book.publisher} in {book.category} ')
 
     def perform_destroy(self, instance):
         # Publish a message before removing the book

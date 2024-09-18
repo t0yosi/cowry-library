@@ -11,6 +11,7 @@ def get_rabbitmq_connection():
         return None, None
 
 def publish_message(message: str):
+    print(message)
     connection, channel = get_rabbitmq_connection()
     if connection and channel:
         channel.basic_publish(exchange='', routing_key='books', body=message)

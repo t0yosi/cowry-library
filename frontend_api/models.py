@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 class User(BaseModel):
@@ -12,3 +12,7 @@ class Book(BaseModel):
     category: str
     available: bool = True
     due_date: Optional[str] = None  # Date when the book will be available if borrowed
+
+class BookFilter(BaseModel):
+    publisher: Optional[str] = Field(None, description="Filter by publisher")
+    category: Optional[str] = Field(None, description="Filter by category")
