@@ -2,6 +2,7 @@ import pika
 import time
 from django.db import transaction
 from .models import User, Book, BorrowRecord
+from pika.exceptions import AMQPConnectionError
 
 
 def get_rabbitmq_connection():

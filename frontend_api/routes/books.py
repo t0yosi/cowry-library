@@ -60,6 +60,7 @@ class BorrowRequest(BaseModel):
 
 @router.post("/{book_id}/borrow")
 async def borrow_book(book_id: str, borrow_request: BorrowRequest):
+    
     # Search for the book by UUID
     book = db.books.find_one({"uuid": book_id})
     if not book:
@@ -67,10 +68,12 @@ async def borrow_book(book_id: str, borrow_request: BorrowRequest):
     if book["is_borrowed"]:
         raise HTTPException(status_code=400, detail="Book is already borrowed")
 
-    due_date = (datetime.utcnow() + timedelta(days=borrow_request.days)).isoformat()
+    due_date = (datetime.utcnow() + timedelta(days=borrow_request.days)).date().isoformat()
     db.books.update_one(
         {"uuid": book_id}, {"$set": {"is_borrowed": True, "due_date": due_date}}
     )
+
+    print(due_date)
 
     # Notify backend API about the borrowed book
     user_id = 1
