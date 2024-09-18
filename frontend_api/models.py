@@ -10,7 +10,7 @@ class Book(BaseModel):
     title: str
     publisher: str
     category: str
-    available: bool = True
+    is_borrowed: bool = False
     due_date: Optional[str] = None  # Date when the book will be available if borrowed
 
 class BookFilter(BaseModel):

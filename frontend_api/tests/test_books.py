@@ -13,8 +13,8 @@ def clear_db():
 def test_list_books():
     # Insert test data
     db.books.insert_many([
-        {"title": "Book 1", "publisher": "Wiley", "category": "Technology", "available": True},
-        {"title": "Book 2", "publisher": "Apress", "category": "Fiction", "available": False}
+        {"title": "Book 1", "publisher": "Wiley", "category": "Technology", "is_borrowed": True},
+        {"title": "Book 2", "publisher": "Apress", "category": "Fiction", "is_borrowed": False}
     ])
     
     response = client.get("/books/")
@@ -26,7 +26,7 @@ def test_list_books():
 
 def test_get_book_by_id():
     # Insert test data
-    book_id = str(db.books.insert_one({"title": "Book 1", "publisher": "Wiley", "category": "Technology", "available": True}).inserted_id)
+    book_id = str(db.books.insert_one({"title": "Book 1", "publisher": "Wiley", "category": "Technology", "is_borrowed": True}).inserted_id)
     
     response = client.get(f"/books/{book_id}")
     assert response.status_code == 200
@@ -46,8 +46,8 @@ def test_get_book_by_id():
 def test_filter_books_by_publisher():
     db.books.delete_many({})  # Clear any previous data
     db.books.insert_many([
-        {"title": "Book 1", "publisher": "Wiley", "category": "Technology", "available": True},
-        {"title": "Book 2", "publisher": "Apress", "category": "Fiction", "available": True}
+        {"title": "Book 1", "publisher": "Wiley", "category": "Technology", "is_borrowed": True},
+        {"title": "Book 2", "publisher": "Apress", "category": "Fiction", "is_borrowed": True}
     ])
     
     response = client.get("/books/filter/?publisher=Wiley")
@@ -61,8 +61,8 @@ def test_filter_books_by_publisher():
 def test_filter_books_by_category():
     db.books.delete_many({})  # Clear any previous data
     db.books.insert_many([
-        {"title": "Book 1", "publisher": "Wiley", "category": "Technology", "available": True},
-        {"title": "Book 2", "publisher": "Apress", "category": "Fiction", "available": True}
+        {"title": "Book 1", "publisher": "Wiley", "category": "Technology", "is_borrowed": True},
+        {"title": "Book 2", "publisher": "Apress", "category": "Fiction", "is_borrowed": True}
     ])
     
     response = client.get("/books/filter/?category=Fiction")
@@ -80,7 +80,7 @@ def test_borrow_book():
         "title": "Book 1",
         "publisher": "Wiley",
         "category": "Technology",
-        "available": True
+        "is_borrowed": False
     }).inserted_id)
 
     # Make the POST request

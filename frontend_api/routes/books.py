@@ -6,13 +6,14 @@ from typing import Optional, List
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 from models import BookFilter
+from rabbitmq import notify_book_borrowed
 
 router = APIRouter()
 
 
 @router.get("/")
 async def list_books():
-    books = list(db.books.find({"available": True}, {"_id": 0}))
+    books = list(db.books.find({"is_borrowed": False}, {"_id": 0}))
     return {"books": books}
 
 
@@ -59,17 +60,24 @@ class BorrowRequest(BaseModel):
 
 @router.post("/{book_id}/borrow")
 async def borrow_book(book_id: str, borrow_request: BorrowRequest):
-    if not ObjectId.is_valid(book_id):
-        raise HTTPException(status_code=400, detail="Invalid ID format")
-
-    book = db.books.find_one({"_id": ObjectId(book_id)})
+    # Search for the book by UUID
+    book = db.books.find_one({"uuid": book_id})
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")
-    if not book["available"]:
+    if book["is_borrowed"]:
         raise HTTPException(status_code=400, detail="Book is already borrowed")
 
     due_date = (datetime.utcnow() + timedelta(days=borrow_request.days)).isoformat()
     db.books.update_one(
-        {"_id": ObjectId(book_id)}, {"$set": {"available": False, "due_date": due_date}}
+        {"uuid": book_id}, {"$set": {"is_borrowed": True, "due_date": due_date}}
     )
+
+    # Notify backend API about the borrowed book
+    user_id = 1
+    notify_book_borrowed({
+        "book_id": book_id,
+        "user_id": user_id,
+        "due_date": due_date
+    })
+
     return {"message": f"Book borrowed for {borrow_request.days} days"}
