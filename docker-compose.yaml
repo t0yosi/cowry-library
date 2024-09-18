@@ -40,3 +40,5 @@ services:
     ports:
       - "5672:5672"  # RabbitMQ main port
       - "15672:15672"  # RabbitMQ Management UI
+    networks:
+      - default
