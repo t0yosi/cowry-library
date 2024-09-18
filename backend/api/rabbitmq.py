@@ -7,7 +7,7 @@ from pika.exceptions import AMQPConnectionError
 
 def get_rabbitmq_connection():
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))  # Adjust if using Docker
+        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))  # Adjust if using Docker
         channel = connection.channel()
         # Declare all queues here to ensure they exist
         channel.queue_declare(queue='books', durable=True)
@@ -48,7 +48,7 @@ def callback(ch, method, properties, body):
 def consume_messages():
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+            connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
             channel = connection.channel()
             channel.queue_declare(queue='users', durable=True)
             channel.queue_declare(queue='borrows', durable=True)

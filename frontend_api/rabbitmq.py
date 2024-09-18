@@ -7,7 +7,7 @@ from database import db
 # Define a function to get RabbitMQ connection
 def get_rabbitmq_connection():
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
         channel = connection.channel()
         channel.queue_declare(queue='books', durable=True)
         channel.queue_declare(queue='users', durable=True)
@@ -79,7 +79,7 @@ def callback(ch, method, properties, body):
 def consume_messages():
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
+            connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
             channel = connection.channel()
             channel.queue_declare(queue='books', durable=True)
             channel.basic_consume(queue='books', on_message_callback=callback, auto_ack=True)
