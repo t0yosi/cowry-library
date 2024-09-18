@@ -12,6 +12,15 @@ class BookSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class BorrowRecordSerializer(serializers.ModelSerializer):
+    user_name = serializers.SerializerMethodField()
+    book_title = serializers.SerializerMethodField()
+
     class Meta:
         model = BorrowRecord
-        fields = '__all__'
+        fields = ['id', 'user', 'book', 'due_date', 'user_name', 'book_title']
+
+    def get_user_name(self, obj):
+        return f"{obj.user.first_name} {obj.user.last_name}"
+
+    def get_book_title(self, obj):
+        return obj.book.title
