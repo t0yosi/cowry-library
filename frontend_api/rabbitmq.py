@@ -37,7 +37,7 @@ def callback(ch, method, properties, body):
 def consume_messages():
     while True:
         try:
-            connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
+            connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
             channel = connection.channel()
             channel.queue_declare(queue="books", durable=True)  # Ensure consistency
 

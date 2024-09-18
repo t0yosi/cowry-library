@@ -2,7 +2,7 @@ import pika
 
 def get_rabbitmq_connection():
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))  # Adjust if using Docker
+        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))  # Adjust if using Docker
         channel = connection.channel()
         channel.queue_declare(queue='books', durable=True)  # Ensure consistency
         return connection, channel
