@@ -47,8 +47,6 @@
 
 ### Prerequisites
 
-Make sure you have the following installed on your system:
-
 - Docker
 - Docker Compose
 - Python 3.9+
@@ -98,7 +96,7 @@ Make sure you have the following installed on your system:
 
 ### Frontend API Endpoints
 
-**Base URL:** `http://localhost:8001`
+**Base URL:** `http://localhost:8000`
 
 | Method | Endpoint            | Description                            | Parameters                         |
 | ------ | ------------------- | -------------------------------------- | ---------------------------------- |
@@ -108,9 +106,27 @@ Make sure you have the following installed on your system:
 | `POST` | `/borrow/{book_id}` | Borrow a book                          | `book_id`, `days`                  |
 | `GET`  | `/books/filter/`    | Filter books by publisher or category  | `publisher`, `category`            |
 
+**Payloads:**
+```bash
+   ## Enroll a user:
+   curl -X POST "http://localhost:8080/api/enroll_user/" -H "Content-Type: application/json" -d '{"email": "test@example.com", "firstname": "John", "lastname": "Doe"}'
+
+   ## Get list of all books:
+   curl -X POST "http://127.0.0.1:8000/books/{book_id}" 
+
+   ## Fetch by Publisher:
+   curl -X GET "http://127.0.0.1:8000/books/filter/?publisher=Ada%20Bane"
+
+   ## Fetch by Category:
+   curl -X GET "http://127.0.0.1:8000/books/filter/?category=Fiction"
+   
+   ## Borrow a book::
+   curl -X POST "http://127.0.0.1:8000/books/{book_id}/borrow" -H "Content-Type: application/json" -d '{"days": 14}'
+```
+
 ### Backend/Admin API Endpoints
 
-**Base URL:** `http://localhost:8000`
+**Base URL:** `http://localhost:8001`
 
 | Method   | Endpoint               | Description                             | Parameters                       |
 | -------- | ---------------------- | --------------------------------------- | -------------------------------- |
