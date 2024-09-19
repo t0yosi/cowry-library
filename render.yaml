@@ -1,0 +1,56 @@
+version: 1
+
+services:
+  frontend-api:
+    type: web
+    name: frontend-api
+    env: docker
+    buildCommand: ./frontend_api/Dockerfile
+    startCommand: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    envVars:
+      MONGO_URI: mongodb://mongo:27017/
+    autoDeploy: true
+    healthCheckPath: /
+    healthCheckInterval: 30000
+    healthCheckTimeout: 5000
+    healthCheckRetries: 5
+
+  backend-api:
+    type: web
+    name: backend-api
+    env: docker
+    buildCommand: ./backend/Dockerfile
+    startCommand: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    envVars:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: library_db
+    autoDeploy: true
+    healthCheckPath: /
+    healthCheckInterval: 30000
+    healthCheckTimeout: 5000
+    healthCheckRetries: 5
+
+  db:
+    type: database
+    name: postgres-db
+    dbType: postgres
+    version: 14
+    envVars:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: library_db
+    autoDeploy: true
+
+  mongo:
+    type: database
+    name: mongo-db
+    dbType: mongo
+    version: 5
+    autoDeploy: true
+
+  rabbitmq:
+    type: background
+    name: rabbitmq
+    env: docker
+    autoDeploy: true
