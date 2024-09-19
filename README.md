@@ -69,8 +69,8 @@ Make sure you have the following installed on your system:
 
    ```bash
       POSTGRES_DB=library_db
-      POSTGRES_USER=admin
-      POSTGRES_PASSWORD=adminpassword
+      POSTGRES_USER=postgres
+      POSTGRES_PASSWORD=password
       POSTGRES_HOST=db
    ```
 
