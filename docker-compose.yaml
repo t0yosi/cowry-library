@@ -8,8 +8,11 @@ services:
       - "8000:8000"
     depends_on:
       - mongo
+      - rabbitmq
     environment:
       - MONGO_URI=mongodb://mongo:27017/
+    links:
+      - rabbitmq
   
   backend-api:
     build: ./backend
@@ -17,6 +20,8 @@ services:
       - "8001:8000"
     depends_on:
       - db
+      - rabbitmq
+
 
   db:
     image: postgres
