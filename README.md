@@ -66,23 +66,33 @@ Make sure you have the following installed on your system:
 2. **Create a .env file in the project root with the following content:**
 
    #### Backend Admin API (Django)
-   POSTGRES_DB=library_db
-   POSTGRES_USER=admin
-   POSTGRES_PASSWORD=adminpassword
-   POSTGRES_HOST=db
+
+   ```bash
+      POSTGRES_DB=library_db
+      POSTGRES_USER=admin
+      POSTGRES_PASSWORD=adminpassword
+      POSTGRES_HOST=db
+   ```
 
    #### Frontend API (FastAPI)
-   MONGODB_URL=mongodb://mongo:27017
+
+   ```bash
+      MONGODB_URL=mongodb://mongo:27017
+   ```
 
 3. **Start the docker container**
 
-   docker-compose up --build
+   
+   ```bash
+      docker-compose up --build
+   ```
 
-4. **Access the services:**
-
-   Frontend API (FastAPI): http://localhost:8000
-   Backend API (Django): http://localhost:8001/api
-
+4. **Access the services:**   
+   
+   ```bash
+      Frontend API (FastAPI): http://localhost:8000
+      Backend API (Django): http://localhost:8001/api
+   ```
 
 ## API Endpoints
 
@@ -90,25 +100,25 @@ Make sure you have the following installed on your system:
 
 **Base URL:** `http://localhost:8001`
 
-| Method | Endpoint              | Description                              | Parameters                        |
-|--------|-----------------------|------------------------------------------|-----------------------------------|
-| `POST` | `/users/`             | Enroll a new user                        | `email`, `first_name`, `last_name` |
-| `GET`  | `/books/`             | List all available books                 | None                              |
-| `GET`  | `/books/{book_id}`    | Get details of a single book by its ID   | `book_id`                         |
-| `POST` | `/borrow/{book_id}`   | Borrow a book                            | `book_id`, `days`                 |
-| `GET`  | `/books/filter/`      | Filter books by publisher or category    | `publisher`, `category`           |
+| Method | Endpoint            | Description                            | Parameters                         |
+| ------ | ------------------- | -------------------------------------- | ---------------------------------- |
+| `POST` | `/users/`           | Enroll a new user                      | `email`, `first_name`, `last_name` |
+| `GET`  | `/books/`           | List all available books               | None                               |
+| `GET`  | `/books/{book_id}`  | Get details of a single book by its ID | `book_id`                          |
+| `POST` | `/borrow/{book_id}` | Borrow a book                          | `book_id`, `days`                  |
+| `GET`  | `/books/filter/`    | Filter books by publisher or category  | `publisher`, `category`            |
 
 ### Backend/Admin API Endpoints
 
 **Base URL:** `http://localhost:8000`
 
-| Method   | Endpoint                          | Description                                    | Parameters                        |
-|----------|-----------------------------------|------------------------------------------------|-----------------------------------|
-| `POST`   | `/api/books/`                     | Add a new book to the catalog                  | `title`, `publisher`, `category`  |
-| `GET   ` | `/api/books/{book_id}`            | Add a book to the catalog                      | `book_id`                         |
-| `DELETE` | `/api/books/{book_id}`            | Remove a book from the catalog                 | `book_id`                         |
-| `GET`    | `/api/users/`                     | List all enrolled users                        | None                              |
-| `GET`    | `/api/borrowed/`                  | List all users and their borrowed books        | None                              |
+| Method   | Endpoint               | Description                             | Parameters                       |
+| -------- | ---------------------- | --------------------------------------- | -------------------------------- |
+| `POST`   | `/api/books/`          | Add a new book to the catalog           | `title`, `publisher`, `category` |
+| `GET   ` | `/api/books/{book_id}` | Add a book to the catalog               | `book_id`                        |
+| `DELETE` | `/api/books/{book_id}` | Remove a book from the catalog          | `book_id`                        |
+| `GET`    | `/api/users/`          | List all enrolled users                 | None                             |
+| `GET`    | `/api/borrowed/`       | List all users and their borrowed books | None                             |
 
 ## Testing
 
