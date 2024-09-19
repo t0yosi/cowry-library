@@ -5,7 +5,7 @@ services:
     type: web
     name: frontend-api
     env: docker
-    buildCommand: ./frontend_api/Dockerfile
+    dockerfilePath: ./frontend_api/Dockerfile
     startCommand: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     envVars:
       MONGO_URI: mongodb://mongo:27017/
@@ -19,7 +19,7 @@ services:
     type: web
     name: backend-api
     env: docker
-    buildCommand: ./backend/Dockerfile
+    dockerfilePath: ./backend/Dockerfile
     startCommand: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     envVars:
       POSTGRES_USER: postgres
@@ -50,7 +50,8 @@ services:
     autoDeploy: true
 
   rabbitmq:
-    type: background
+    type: queue
     name: rabbitmq
     env: docker
+    dockerfilePath: ./rabbitmq/Dockerfile
     autoDeploy: true
